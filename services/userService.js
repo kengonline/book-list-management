@@ -1,6 +1,5 @@
 var express = require('express');
 var firebase = require(__base + 'modules/firebase');
-var bcrypt = require('bcryptjs');
 
 // Firebase Setup
 var db = firebase.database();
