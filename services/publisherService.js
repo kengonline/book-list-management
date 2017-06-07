@@ -21,27 +21,26 @@ publisherService.get = async function (name) {
     return result[key];
 }
 
-publisherService.create = async function (user) {
-    let publisher = await getByName(user.name);
+publisherService.create = async function (requestPublisher) {
+    let publisher = await getByName(requestPublisher.name);
     if (publisher)
         return responseHelper.error("Duplicate publisher.");
 
-    let newPublisher = ref.push();
-    await newPublisher.set(user);
+    let newPublisher = refRoot.push();
+    await newPublisher.set(requestPublisher);
 
     return (await newPublisher.once('value')).val();
 }
 
-publisherService.update = async function (name, user) {
+publisherService.update = async function (name, requestPublisher) {
     let publisher = await getByName(name);
     if (publisher == null)
         return responseHelper.error("Not found publisher.");
 
     let key = Object.keys(publisher)[0];
-    delete user.name;
-    await refRoot.child(key).update(user);
+    await refRoot.child(key).update(requestPublisher);
 
-    return await publisherService.get(name);
+    return await publisherService.get(requestPublisher.name);
 }
 
 publisherService.delete = async function (name) {
