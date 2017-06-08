@@ -1,4 +1,6 @@
-var createUserSchema = {
+let userSchema = {};
+
+userSchema.create = {
   'username': {
     notEmpty: true,
     isLength: {
@@ -26,4 +28,4 @@ var createUserSchema = {
   }
 };
 
-module.exports = createUserSchema;
+module.exports = userSchema;

@@ -2,17 +2,16 @@ var express = require('express');
 var router = express.Router();
 var firebase = require(__base + 'modules/firebase');
 var expressValidator = require('express-validator');
-var createPublisherSchema = require(__base + 'schemaValidators/createPublisherSchema');
+var publisherSchema = require(__base + 'schemaValidators/publisherSchema');
 var publisherService = require(__base + 'services/publisherService');
 
-/* GET users listing. */
 router.get('/:name', async function (req, res, next) {
   var result = await publisherService.get(req.params.name);
   res.send(result);
 });
 
 router.post('/', async function (req, res, next) {
-  req.checkBody(createPublisherSchema);
+  req.checkBody(publisherSchema.create);
 
   var errors = await req.getValidationResult();
   if (errors.array().length == 0) {
@@ -24,7 +23,7 @@ router.post('/', async function (req, res, next) {
 });
 
 router.put('/:name', async function (req, res, next) {
-  req.checkBody(createPublisherSchema);
+  req.checkBody(publisherSchema.update);
 
   var errors = await req.getValidationResult();
   if (errors.array().length == 0) {

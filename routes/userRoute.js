@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var firebase = require(__base + 'modules/firebase');
 var expressValidator = require('express-validator');
-var createUserSchema = require(__base + 'schemaValidators/createUserSchema');
+var userSchema = require(__base + 'schemaValidators/userSchema');
 var userService = require(__base + 'services/userService');
 
 /* GET users listing. */
@@ -12,7 +12,7 @@ router.get('/:name', async function (req, res, next) {
 });
 
 router.post('/', async function (req, res, next) {
-  req.checkBody(createUserSchema);
+  req.checkBody(userSchema.create);
 
   var errors = await req.getValidationResult();
   if (errors.array().length == 0) {
